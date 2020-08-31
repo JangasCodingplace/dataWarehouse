@@ -43,9 +43,9 @@ staging_events_table_create= ("""
 staging_songs_table_create = ("""
     CREATE TABLE IF NOT EXISTS staging_songs (
         artist_id varchar,
-        artist_latitude varchar,
+        artist_latitude DOUBLE PRECISION,
         artist_location varchar,
-        artist_longitude varchar,
+        artist_longitude DOUBLE PRECISION,
         artist_name varchar,
         duration double precision,
         num_songs int,
@@ -103,8 +103,8 @@ artist_table_create = ("""
         artist_id varchar NOT NULL,
         name varchar NOT NULL,
         location varchar,
-        latitude varchar,
-        longitude varchar,
+        latitude DOUBLE PRECISION,
+        longitude DOUBLE PRECISION,
         PRIMARY KEY (artist_id)
     )
     diststyle all;
@@ -176,7 +176,12 @@ user_table_insert = ("""
         gender,
         level
     )
-    SELECT DISTINCT user_id, firstName, lastName, gender, level
+    SELECT DISTINCT
+        user_id,
+        firstName,
+        lastName,
+        gender,
+        level
     FROM staging_events
 """)
 
@@ -188,7 +193,12 @@ song_table_insert = ("""
         year,
         duration
     )
-    SELECT DISTINCT song_id, title, artist_id, year, duration
+    SELECT DISTINCT
+        song_id,
+        title,
+        artist_id,
+        year,
+        duration
     FROM staging_songs
 """)
 
@@ -200,7 +210,12 @@ artist_table_insert = ("""
         latitude,
         longitude
     )
-    SELECT DISTINCT artist_id, artist_name, artist_location, artist_latitude, artist_longitude
+    SELECT DISTINCT
+        artist_id,
+        artist_name,
+        artist_location,
+        artist_latitude,
+        artist_longitude
     FROM staging_songs
 """)
 
